@@ -1,0 +1,59 @@
+﻿@model Coursaty.Models.ViewModels.CourseViewModel
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+@{
+    ViewData["Title"] = "AddCourse";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+<h1>Add Course</h1>
+
+<h4>CourseViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="AddCourse" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CourseName" class="control-label"></label>
+                <input asp-for="CourseName" class="form-control" />
+                <span asp-validation-for="CourseName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CourseDescription" class="control-label"></label>
+                <input asp-for="CourseDescription" class="form-control" />
+                <span asp-validation-for="CourseDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CourseStartDate" class="control-label"></label>
+                <input asp-for="CourseStartDate" class="form-control" />
+                <span asp-validation-for="CourseStartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CourseHours" class="control-label"></label>
+                <input asp-for="CourseHours" class="form-control" />
+                <span asp-validation-for="CourseHours" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InstructorName" class="control-label">Instructor Name</label>
+                <select asp-for="InstructorName" asp-items="ViewBag.Instructors" class="form-control">
+                    <option value="">Select Instructor</option>
+                </select>
+                <span asp-validation-for="InstructorName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CourseImg" class="control-label">Course Image</label>
+                <input asp-for="CourseImg" type="file" class="form-control" />
+                <span asp-validation-for="CourseImg" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

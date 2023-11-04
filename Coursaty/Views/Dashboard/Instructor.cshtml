@@ -1,0 +1,39 @@
+﻿@using System.Security.Claims
+
+@model Coursaty.Models.ViewModels.AddUserViewModel
+
+<!DOCTYPE html>
+<html>
+<body>
+    <div class="page-content">
+        <div class="row">
+        
+            <div class="col-md-10">
+                <head>
+                    <style>
+                        .big-text {
+                            font-size: 50px;
+                        }
+
+                        .new-big {
+                            font-size: 30px;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h1 class="big-text">Welcome In Instructor DashBoard</h1>
+                    <h3 class="new-big">
+                       
+                        @if (User.IsInRole("Instructor"))
+                        {
+                            <div class="welcome-message">
+                                Instructor: @User.FindFirstValue("FirstName") @User.FindFirstValue("LastName")
+                            </div>
+                        }
+                    </h3>
+                </body>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

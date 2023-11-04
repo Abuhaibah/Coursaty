@@ -1,0 +1,37 @@
+﻿@model Coursaty.Models.ViewModels.ChooseStudentsViewModel
+
+@{
+    ViewData["Title"] = "Choose Students to Add";
+}
+
+<h1>Choose Students to Add to @Model.CourseName</h1>
+
+@using (Html.BeginForm("AddSelectedStudents", "Dashboard", FormMethod.Post))
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Email</th>
+                <th>Select</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var student in Model.AvailableStudents)
+            {
+                <tr>
+                    <td>@student.FirstName @student.LastName</td>
+                    <td>@student.Email</td>
+                    <td>
+                        <input type="checkbox" name="selectedStudents" value="@student.userId" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <input type="hidden" name="courseId" value="@Model.CourseId" />
+    <button type="submit">Add Selected Students</button>
+    <a asp-action="DetailsCourse" asp-route-id="@Model.CourseId">Back to Course Details</a>
+    <span class="text-danger validation-summary-valid" data-valmsg-summary="true"></span>
+    @Html.ValidationMessage("selectedStudents", "Please select at least one student.", new { @class = "text-danger" })
+}

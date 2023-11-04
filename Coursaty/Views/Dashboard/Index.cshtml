@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+<div class="full-screen-container">
+    @if (User.Identity.IsAuthenticated)
+    {
+        if (User.IsInRole("Admin"))
+        {
+            <partial name="Admin" />
+        }
+        else if (User.IsInRole("Instructor"))
+        {
+            <partial name="Instructor" />
+        }
+        else if (User.IsInRole("Student"))
+        {
+            <partial name="Student" />
+        }
+    }
+    else
+    {
+        <p>Please log in to access the dashboard.</p>
+    }
+</div>

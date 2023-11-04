@@ -1,0 +1,72 @@
+﻿@model Coursaty.Models.UsersInstructors
+
+@{
+    ViewData["Title"] = "CourseList";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+<h1>CourseList</h1>
+
+<p>
+    <a asp-action="AddCourse">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Courses.First().CourseName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Courses.First().CourseDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Courses.First().CourseStartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Courses.First().CourseImg)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Courses.First().CourseHours)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Courses.First().InstructorName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Courses)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CourseName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CourseDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CourseStartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CourseImg)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CourseHours)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InstructorName)
+                </td>
+                <td>
+                    <a asp-action="EditCourse" asp-route-id="@item.CourseId">Edit</a> |
+                    <a asp-action="DetailsCourse" asp-route-id="@item.CourseId">Details</a> |
+                    <a asp-action="DeleteCourse" asp-route-id="@item.CourseId">Delete</a>
+
+                    @if (User.IsInRole("Student"))
+                    {
+                        <a asp-action="ChooseStudents" asp-route-courseId="@item.CourseId">Add to My Courses</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

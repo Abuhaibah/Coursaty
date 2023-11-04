@@ -1,0 +1,50 @@
+﻿@model Coursaty.Models.UsersInstructors
+
+@{
+    ViewData["Title"] = "AddCarousel";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+<h1>AddCarousel</h1>
+
+<h4>CarouselItem</h4>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+    <form asp-action="AddCarousel" method="post" enctype="multipart/form-data" >
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        @for (int i = 0; i < Model.CarouselItems.Count; i++)
+        {
+            <div class="form-group">
+                <label asp-for="CarouselItems[i].Title" class="control-label">Title</label>
+                <input asp-for="CarouselItems[i].Title" class="form-control" />
+                <span asp-validation-for="CarouselItems[i].Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CarouselItems[i].Subtitle" class="control-label">Subtitle</label>
+                <input asp-for="CarouselItems[i].Subtitle" class="form-control" />
+                <span asp-validation-for="CarouselItems[i].Subtitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CarouselItems[i].Description" class="control-label">Description</label>
+                <input asp-for="CarouselItems[i].Description" class="form-control" />
+                <span asp-validation-for="CarouselItems[i].Description" class="text-danger"></span>
+            </div>
+        }
+
+        <div class="form-group">
+            <label for="image">Image:</label>
+            <input type="file" id="image" name="imageFile" class="form-control" accept="image/*" required>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

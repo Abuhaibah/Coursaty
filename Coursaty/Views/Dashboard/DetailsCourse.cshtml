@@ -1,0 +1,103 @@
+﻿@model Coursaty.Models.UsersInstructors
+
+@{
+    ViewData["Title"] = "Details Course";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+<h1>Details Course</h1>
+
+<p>
+    <a asp-action="AddCourse">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Course Name
+            </th>
+            <th>
+                Course Description
+            </th>
+            <th>
+                Course Start Date
+            </th>
+            <th>
+                Course Image
+            </th>
+            <th>
+                Course Hours
+            </th>
+            <th>
+                Instructor Name
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var course in Model.Courses)
+        {
+            <tr>
+                <td>
+                    @course.CourseName
+                </td>
+                <td>
+                    @course.CourseDescription
+                </td>
+                <td>
+                    @course.CourseStartDate
+                </td>
+                <td>
+                    @course.CourseImg
+                </td>
+                <td>
+                    @course.CourseHours
+                </td>
+                <td>
+                    @course.InstructorName
+                </td>
+                <td>
+                    <a asp-action="EditCourse" asp-route-id="@course.CourseId">Edit</a> |
+                    <a asp-action="DeleteCourse" asp-route-id="@course.CourseId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h2>Students in the Course</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Student Name
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Mobile
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var student in Model.AddUsers)
+        {
+            <tr>
+                <td>
+                    @student.FirstName @student.LastName
+                </td>
+                <td>
+                    @student.Email
+                </td>
+                <td>
+                    @student.Mobile
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p>
+    <a asp-action="ChooseStudents" asp-route-courseId="@Model.Courses[0].CourseId">Add Student</a>
+</p>

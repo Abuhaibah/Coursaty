@@ -1,0 +1,197 @@
+﻿@model Coursaty.Models.UsersInstructors
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> _signInManager
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bootstrap Admin Theme v3</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="~/dashboard/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- styles -->
+    <link href="~/dashboard/css/styles.css" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5">
+                    <!-- Logo -->
+                    <div class="logo">
+                        <h1><a href="~/index.html">Coursaty</a></h1>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="input-group form">
+                                <input type="text" class="form-control" placeholder="Search...">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary" type="button">Search</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="navbar navbar-inverse" role="banner">
+                        <nav class="collapse navbar-collapse bs-navbar-collapse navbar-right" role="navigation">
+                            <ul class="nav navbar-nav">
+                                @{
+                                    string loggedInUserName = TempData["LoggedInUserName"] as string;
+                                    bool isAdmin = User.IsInRole("Admin");
+                                    bool isStudent = User.IsInRole("Student");
+                                    bool isInstructor = User.IsInRole("Instructor");
+                                }
+
+                                @if (_signInManager.IsSignedIn(User))
+                                {
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@loggedInUserName <b class="caret"></b></a>
+                                        <ul class="dropdown-menu animated fadeInUp">
+                                            <li><a href="~/profile.html">Profile</a></li>
+                                            <li><a asp-controller="Account" asp-action="Logout">Logout</a></li> <!-- Updated Logout link -->
+                                        </ul>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                            My Account <b class="caret"></b>
+                                        </a>
+                                        <ul class="dropdown-menu animated fadeInUp">
+                                            <li><a href="~/profile.html">Profile</a></li>
+                                            @if (isAdmin)
+                                            {
+                                                <li><a href="admin-login-link">Admin Login</a></li>
+                                            }
+                                            @if (isStudent)
+                                            {
+                                                <li><a href="student-login-link">Student Login</a></li>
+                                            }
+                                            @if (isInstructor)
+                                            {
+                                                <li><a href="instructor-login-link">Instructor Login</a></li>
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="full-screen-container">
+        <div class="col-md-2">
+            <div class="sidebar content-box">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (User.IsInRole("Admin"))
+                    {
+                        <ul class="nav">
+                            <!-- Main menu -->
+                            <li class="current"><a href="@Url.Action("Index", "Dashboard")"><i class="glyphicon glyphicon-home"></i> Dashboard</a></li>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="submenu">
+                                    <a href="#">
+                                        <i class="glyphicon glyphicon-list"></i> Add
+                                        <span class="caret pull-right"></span>
+                                    </a>
+                                    <!-- Sub menu -->
+                                    <ul>
+                                        <li><a href="@Url.Action("Register", "Account")">User/Instructor</a></li>
+                                        <li><a href="@Url.Action("AddCourse", "Dashboard")">Course</a></li>
+                                    </ul>
+                                </li>
+                                <li class="submenu">
+                                    <a href="#">
+                                        <i class="glyphicon glyphicon-list"></i> Edit
+                                        <span class="caret pull-right"></span>
+                                    </a>
+                                    <!-- Sub menu -->
+                                    <ul>
+                                        <li><a href="@Url.Action("UserInstructor", "Dashboard", new { role = "Instructor" })">User/Instructor</a></li>
+                                        <li><a href="@Url.Action("CourseList", "Dashboard")">Course</a></li>
+                                    </ul>
+                                </li>
+                                <li class="current"><a href="@Url.Action("RoleList", "Account")"><i class="glyphicon glyphicon-home"></i> Roles</a></li>
+                                <li class="submenu">
+                                    <a href="#">
+                                        <i class="glyphicon glyphicon-list"></i> Edit Home Page
+                                        <span class="caret pull-right"></span>
+                                    </a>
+                                    <!-- Sub menu -->
+                                    <ul>
+                                        <li><a href="@Url.Action("CarouselList", "Dashboard")">Carousel</a></li>
+                                    </ul>
+                                </li>
+                            }
+                            @if (User.IsInRole("Instructor"))
+                            {
+                                <li class="current"><a href="@Url.Action("Instructor", "Dashboard")"><i class="glyphicon glyphicon-home"></i> Instructor Page</a></li>
+                            }
+                            @if (User.IsInRole("Student"))
+                            {
+                                <li class="current"><a href="@Url.Action("Student", "Dashboard")"><i class="glyphicon glyphicon-home"></i> Student Page</a></li>
+                            }
+                        </ul>
+                    }
+                    else if (User.IsInRole("Instructor"))
+                    {
+                        <ul class="nav">
+                            <!-- Main menu -->
+                            <li class="current"><a href="@Url.Action("Index", "Dashboard")"><i class="glyphicon glyphicon-home"></i> Dashboard</a></li>
+                            <li class="current"><a href="@Url.Action("CourseList", "Dashboard")"><i class="glyphicon glyphicon-home"></i> Courses</a></li>
+                            <li class="current"><a href="@Url.Action("Marks", "Dashboard")"><i class="glyphicon glyphicon-home"></i> Marks</a></li>
+                        </ul>
+                    }
+                    else if (User.IsInRole("Student"))
+                    {
+                        <ul class="nav">
+                            <!-- Main menu -->
+                            <li class="current"><a href="@Url.Action("Index", "Dashboard")"><i class="glyphicon glyphicon-home"></i> Dashboard</a></li>
+                            <li class="current"><a href="@Url.Action("CourseList", "Dashboard")"><i class="glyphicon glyphicon-home"></i> Courses</a></li>
+                            <li class="current"><a href="@Url.Action("Marks", "Dashboard")"><i class="glyphicon glyphicon-home"></i> Marks</a></li>
+                            <li class="current"><a href="index.html"><i class="glyphicon glyphicon-home"></i> Student schedule</a></li>
+                        </ul>
+                    }
+                }
+                else
+                {
+                    <p>Please log in to access the dashboard.</p>
+                }
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="content-box-large">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="copy text-center">
+                Copyright 2014 <a href='#'>Website</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="~/dashboard/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/dashboard/js/custom.js"></script>
+</body>
+</html>
